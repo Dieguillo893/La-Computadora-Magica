@@ -1,0 +1,97 @@
+//Parte de Michael, las librerias y el tipo de resupuestas posibles 
+//Librerias encontradas en cplusplus.com
+#include <iostream>
+#include <cstdlib>  // Para generar los numeros alelatoriamente. 
+#include <ctime>    // Usado para iniciar el generador de numeros aleatorios.
+#include <string>   // Escribir tipo texto.
+using namespace std;
+
+int main() {
+    // El numero de constantes de posibles respuestas.
+    const int num_respuestas = 21;
+
+    //Posibles respuestas de la Computadora Magica.
+    string respuestas [num_respuestas] = {
+    
+    "Si. ", "Por supuesto. ",
+    "No. ", "Ni soñando. ",
+    "Tas tu loco. ", "Tal Vez. ",
+    "Esa pregunta esta fuera de lugar. ", "Preguntaselo a ChatGPT. ",
+    "Esa pregunta no se puede predecir ahora. ", "Es muy poco probable. ",
+    "Esa pregunta no es divertida. ", "Que mucho preguntas. ", 
+    "¿Porque sigues usando este programa? ¿No te cansas? ",
+    "Definitivamente. ", "En un futuro muy cercano. ", 
+    "Estoy muy seguro/a de eso. ", "Por supuesto que Si. ",
+    "Obvio si, no se porque preguntas eso. ", "Porque dudas, ya te dijo que no.",
+    "Porque dudas ya te dijo que si. ", "Si, algun dia. ", 
+    };
+
+    // Generador de numeros aleatorios.
+    srand(time(0));
+
+   //Parte de Esteban, inicio y formato loop para seguir reproduciendo o parar 
+  // Mensaje de Bienvenida epico
+    cout << "=================================================" << endl;
+    cout << "     ¡Bienvenido a la Computadora Magica!" << endl;
+    cout << "=================================================" << endl;
+    cout << "Haz una pregunta de si/no y te dare una respuesta" << endl;
+    cout << "Escribe 'exit' para terminar en cualquier momento" << endl;
+    cout << "=================================================" << endl;
+
+    // Input del usuario y loop
+    string userQuestion;
+    bool keepAsking = true;
+
+    // loop mientras haces preguntas epicas 
+    while (keepAsking) {
+        cout << "\nCual es su pregunta: ";
+        getline (cin, userQuestion);  // Obtener pregunta del usuario 
+
+        // Si escribe "exit" se termina loop
+        if (userQuestion == "exit") {
+            keepAsking = false;
+            cout << "\nGracias por usar la Computadora Magica!" << endl;
+            break;
+        }
+
+        // Compruebe si la entrada es un numero (cualquier entrada numerica)
+        bool isNumber = true;
+        for (char c : userQuestion) {
+            if (!isdigit(c) && c != ' ') {
+                isNumber = false;
+                break;
+            }
+        }
+        
+        // Parte de Diego
+        // 1. Si la entrada es un numero (o digitos completos), solicite una nueva pregunta
+        if (isNumber) {
+            cout << "\nEntrada no valida! Por favor ingrese una pregunta valida, no un numero." << endl;
+            continue;  // Salta el resto del ciclo y haz una nueva pregunta.
+        }
+
+        // 2. Genera un numero aleatorio para elegir una respuesta
+        int randomIndex = rand() % num_respuestas;
+
+        // 3. Mostrar la respuesta aleatoria con formato.
+        cout << "\nLa Computadora Magica dice:" << endl;
+        cout << "------------------------------------" << endl;
+        cout << "* " << respuestas[randomIndex] << " *" << endl;
+        cout << "------------------------------------" << endl;
+
+        // 4. Preguntar al usuario si quiere hacer otra pregunta.
+        char answer;
+        cout << "\n¿Quieres hacer otra pregunta? (y/n): ";
+        cin >> answer;
+        cin.ignore();  // Ignora la nueva linea dejada por la entrada anterior
+
+        // 5. Si el usuario no quiere continuar, salga del bucle.
+        if (answer == 'n' || answer == 'N') {
+            keepAsking = false;
+            cout << "\n¡Gracias por usar la Computadora Magica!" << endl;
+            cout << "¡Adios!" << endl;
+        }
+    }
+
+    return 0;
+}
